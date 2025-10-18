@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SweetRoute Deluxe - Pedidos</title>
     <link rel="stylesheet" href="styles.css"> 
-    </head>
+</head>
 <body>
     <header class="navbar">
         <div class="titulo">SweetRoute Deluxe</div>
@@ -25,15 +25,15 @@
 
         <div class="pedido-container">
             <div class="map-column">
-                <div class="section-title-sub">Ubicación de Entrega</div>
+                <div class="section-title-sub">Ubicación de Entrega (La Molina)</div>
                 
                 <div class="google-maps-box">
                     <iframe 
-                        src="https://maps.google.com/maps?q=Arequipa%2C%20Peru&t=&z=14&ie=UTF8&iwloc=&output=embed" 
+                        src="http://googleusercontent.com/maps.google.com/6" 
                         width="100%" 
                         height="100%" 
                         frameborder="0" 
-                        style="border:0; border-radius: var(--borde-redondeado-extremo);" 
+                        style="border:0;" 
                         allowfullscreen="" 
                         aria-hidden="false" 
                         tabindex="0">
@@ -52,8 +52,8 @@
                         UN BOTÓN DE AÑADIR PRODUCTO A PEDIR
                     </a>
 
-                    <label for="productos">MOSTRAR PRODUCTOS PEDIDOS (Ej. 3 productos en carrito):</label>
-                    <textarea id="productos" class="input-field" rows="3" readonly>Tarta de Fresa, Café Espresso, 1 Caja de Macarons.</textarea>
+                    <label for="productos">MOSTRAR PRODUCTOS PEDIDOS:</label>
+                    <textarea id="productos-pedidos" class="input-field" rows="6" readonly></textarea>
 
                     <label for="direccion" style="margin-top: 20px;">DIRECCIÓN para la entrega:</label>
                     <input type="text" id="direccion" class="input-field" placeholder="Av. Principal 123, Urb. XXX">
@@ -78,19 +78,39 @@
             const confirmarBtn = document.getElementById('confirmar-btn');
             const nombreInput = document.getElementById('nombre');
             const direccionInput = document.getElementById('direccion');
+            const productosArea = document.getElementById('productos-pedidos');
             const modal = document.getElementById('modal-confirmacion');
             const modalMensaje = document.getElementById('modal-mensaje');
 
-            confirmarBtn.addEventListener('click', () => {
+            // Función para cargar los productos seleccionados de localStorage
+            function cargarProductos() {
+                const productosSeleccionados = JSON.parse(localStorage.getItem('sweetRoutePedidos')) || [];
+                
+                if (productosSeleccionados.length === 0) {
+                    productosArea.value = "Aún no has añadido ningún producto. Haz clic en 'Añadir Producto a Pedir'.";
+                } else {
+                    // Muestra cada producto en una nueva línea
+                    productosArea.value = productosSeleccionados.join('\n');
+                }
+            }
+            
+            cargarProductos();
+
+            confirmarBtn.addEventListener('click', (e) => {
+                e.preventDefault();
                 let falta = false;
                 
+                // Limpiar estilos de error previos
+                nombreInput.style.borderColor = "";
+                direccionInput.style.borderColor = "";
+                nombreInput.placeholder = "Escribe tu nombre completo";
+                direccionInput.placeholder = "Av. Principal 123, Urb. XXX";
+
                 // 1. Validar Nombre
                 if (nombreInput.value.trim() === "") {
                     nombreInput.placeholder = "¡FALTA el nombre!";
                     nombreInput.style.borderColor = "red";
                     falta = true;
-                } else {
-                    nombreInput.style.borderColor = "";
                 }
 
                 // 2. Validar Dirección
@@ -98,30 +118,38 @@
                     direccionInput.placeholder = "¡FALTA la dirección!";
                     direccionInput.style.borderColor = "red";
                     falta = true;
-                } else {
-                    direccionInput.style.borderColor = "";
                 }
                 
-                // 3. Mostrar resultado
-                if (falta) {
-                    // Si falta algo, simplemente no se carga la pantalla y los campos quedan marcados
-                    // No hacemos nada más, el usuario tiene que rellenar.
-                } else {
+                // 3. Validar si hay productos seleccionados
+                const productosSeleccionados = JSON.parse(localStorage.getItem('sweetRoutePedidos')) || [];
+                if (productosSeleccionados.length === 0) {
+                    modalMensaje.textContent = "¡FALTA! No hay productos añadidos al pedido.";
+                    abrirModal();
+                    falta = true;
+                }
+                
+                // 4. Mostrar resultado
+                if (!falta) {
                     // Pedido Exitoso
                     modalMensaje.textContent = "¡Su pedido ha sido exitoso! Pronto lo recibirás.";
                     abrirModal();
-                    // Aquí iría la lógica para enviar el pedido al servidor
+                    
+                    // Limpiar el carrito después de un pedido exitoso
+                    localStorage.removeItem('sweetRoutePedidos');
+                    // Actualizar el área de texto
+                    productosArea.value = "Pedido enviado. Carrito vacío.";
+                } else if (falta && productosSeleccionados.length > 0) {
+                    // Solo falta nombre o dirección, y el modal no se abrió por falta de productos
+                    // (La validación de Nombre/Dirección ya marcó los campos, que es lo que pediste)
                 }
             });
 
             window.cerrarModal = () => {
                 modal.style.display = "none";
-                // Opcional: Recargar la página o limpiar el formulario
-                // window.location.reload(); 
             }
             
             function abrirModal() {
-                modal.style.display = "flex"; // Usar flex para centrar
+                modal.style.display = "flex";
             }
         });
     </script>
