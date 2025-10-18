@@ -193,4 +193,64 @@ main {
 
 .confirm-btn:hover {
     background-color: #C39C2D;
+} 
+
+/* ------------------ ESTILOS PARA EL JUEGO (index.html) ------------------ */
+
+.game-container {
+    background-color: var(--detalles-tecnologicos); /* Fondo gris oscuro del área de juego */
+    padding: 30px;
+    border-radius: 25px;
+    margin-top: 20px;
+    position: relative; /* Importante para posicionar los elementos del juego */
+    overflow: hidden; /* Oculta elementos que se salen del contenedor */
+    min-height: 400px; /* Altura mínima para el área de juego */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; 
+}
+
+.game-description {
+    color: white;
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+}
+
+/* Elementos del juego */
+.player-circle {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(to bottom right, #5e00ff, #00d9ff); /* Degradado azul/morado */
+    border-radius: 50%;
+    position: absolute;
+    bottom: 50px; /* Posición inicial, ajustaremos con JS */
+    left: 50px; /* Posición inicial, ajustaremos con JS */
+    z-index: 10;
+}
+
+.platform {
+    background-color: lightgray; /* Rectángulos plomos (plataformas) */
+    border-radius: 15px;
+    position: absolute;
+    z-index: 5;
+    height: 30px; /* Altura constante para las plataformas */
+}
+
+.collectible {
+    width: 30px;
+    height: 30px;
+    background: linear-gradient(to bottom right, #FFD700, #FFFF00); /* Degradado amarillo */
+    position: absolute;
+    z-index: 6;
+    border-radius: 5px; /* Cubo ligeramente redondeado */
+}
+
+.spike {
+    width: 0;
+    height: 0;
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+    border-bottom: 30px solid black; /* Triángulo apuntando hacia arriba */
+    position: absolute;
+    z-index: 7;
 }
