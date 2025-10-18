@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SweetRoute Deluxe - Pedidos</title>
-    <link rel="stylesheet" href="styles.css"> 
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <header class="navbar">
@@ -13,7 +13,6 @@
             <a href="index.html">Descripción</a>
             <a href="productos.html">Productos</a>
             <a href="pedidos.html" class="active">Pedidos</a>
-            <a href="contactanos.html">Contáctanos</a>
         </nav>
         <div class="login-container">
             <button class="login-btn">LOGIN</button>
@@ -21,136 +20,160 @@
     </header>
 
     <main>
-        <div class="section-title-sub">Pedidos</div> 
+        <div class="section-title-sub">¡Tu Pedido!</div>
 
         <div class="pedido-container">
             <div class="map-column">
-                <div class="section-title-sub">Ubicación de Entrega (La Molina)</div>
-                
+                <div class="section-title-sub section-title-inline">📍 Dirección de Entrega (La Molina)</div>
                 <div class="google-maps-box">
-                    <iframe 
-                        src="http://googleusercontent.com/maps.google.com/6" 
-                        width="100%" 
-                        height="100%" 
-                        frameborder="0" 
-                        style="border:0;" 
-                        allowfullscreen="" 
-                        aria-hidden="false" 
-                        tabindex="0">
-                    </iframe>
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15340.487858485292!2d-76.9406541671941!3d-12.079201123485641!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9105c6c06836154b%3A0xc6e469502759e0a0!2sLa%20Molina%2C%20Per%C3%BA!5e0!3m2!1ses-419!2spe!4v1700000000000!5m2!1ses-419!2spe" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                 </div>
             </div>
 
             <div class="form-column">
-                <div class="section-title-sub">Detalles del Pedido</div>
+                <div class="section-title-sub section-title-inline">📝 Detalles y Confirmación</div>
 
                 <div class="form-box">
-                    <label for="nombre">NOMBRE DEL QUE HACE EL PEDIDO:</label>
-                    <input type="text" id="nombre" class="input-field" placeholder="Escribe tu nombre completo">
+                    <label for="productos-pedidos">Productos Agregados:</label>
+                    <textarea id="productos-pedidos" class="input-field" readonly>No hay productos en el carrito.</textarea>
+                    
+                    <div id="remove-product-container">
+                        <button class="action-button remove-btn">Quitar Producto</button>
+                        <input type="text" id="remove-product-name" class="input-field" placeholder="Escribe el nombre del producto a quitar y presiona Enter">
+                    </div>
 
-                    <a href="productos.html" class="action-button confirm" style="margin-top: 20px; display: block; text-align: center; text-decoration: none;">
-                        UN BOTÓN DE AÑADIR PRODUCTO A PEDIR
-                    </a>
+                    <label for="nombre">Nombre Completo:</label>
+                    <input type="text" id="nombre" class="input-field" placeholder="Juan Pérez">
 
-                    <label for="productos">MOSTRAR PRODUCTOS PEDIDOS:</label>
-                    <textarea id="productos-pedidos" class="input-field" rows="6" readonly></textarea>
+                    <label for="direccion">Dirección de Entrega:</label>
+                    <input type="text" id="direccion" class="input-field" placeholder="Av. Los Fresnos 123">
 
-                    <label for="direccion" style="margin-top: 20px;">DIRECCIÓN para la entrega:</label>
-                    <input type="text" id="direccion" class="input-field" placeholder="Av. Principal 123, Urb. XXX">
+                    <label for="telefono">Teléfono:</label>
+                    <input type="tel" id="telefono" class="input-field" placeholder="+51 987 654 321">
 
-                    <button id="confirmar-btn" class="action-button confirm" style="margin-top: 30px;">
-                        Boton de confirmar pedido
-                    </button>
+                    <label for="total">Total Estimado:</label>
+                    <input type="text" id="total" class="input-field" value="$0.00" readonly>
+                    
+                    <button class="action-button confirm" id="confirmar-pedido">Finalizar Pedido</button>
                 </div>
-            </div>
-        </div>
-
-        <div id="modal-confirmacion" class="modal">
-            <div class="modal-content">
-                <p id="modal-mensaje"></p>
-                <button onclick="cerrarModal()" class="action-button confirm">Aceptar</button>
             </div>
         </div>
     </main>
 
+    <div id="confirm-modal" class="modal">
+        <div class="modal-content">
+            <p>¡Pedido Confirmado! 🥳</p>
+            <p>Gracias por tu compra. Te enviaremos un mensaje de confirmación.</p>
+            <button class="action-button confirm" id="close-modal-btn">Cerrar</button>
+        </div>
+    </div>
+
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const confirmarBtn = document.getElementById('confirmar-btn');
-            const nombreInput = document.getElementById('nombre');
-            const direccionInput = document.getElementById('direccion');
-            const productosArea = document.getElementById('productos-pedidos');
-            const modal = document.getElementById('modal-confirmacion');
-            const modalMensaje = document.getElementById('modal-mensaje');
+            const productsTextarea = document.getElementById('productos-pedidos');
+            const totalInput = document.getElementById('total');
+            const removeInput = document.getElementById('remove-product-name');
+            const removeButton = document.querySelector('.remove-btn');
+            const confirmarButton = document.getElementById('confirmar-pedido');
+            const modal = document.getElementById('confirm-modal');
+            const closeModalButton = document.getElementById('close-modal-btn');
 
-            // Función para cargar los productos seleccionados de localStorage
-            function cargarProductos() {
-                const productosSeleccionados = JSON.parse(localStorage.getItem('sweetRoutePedidos')) || [];
+            // Función para cargar/actualizar los productos y el total
+            function loadAndDisplayProducts() {
+                let pedidos = JSON.parse(localStorage.getItem('sweetRoutePedidos')) || [];
                 
-                if (productosSeleccionados.length === 0) {
-                    productosArea.value = "Aún no has añadido ningún producto. Haz clic en 'Añadir Producto a Pedir'.";
-                } else {
-                    // Muestra cada producto en una nueva línea
-                    productosArea.value = productosSeleccionados.join('\n');
-                }
-            }
-            
-            cargarProductos();
-
-            confirmarBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                let falta = false;
-                
-                // Limpiar estilos de error previos
-                nombreInput.style.borderColor = "";
-                direccionInput.style.borderColor = "";
-                nombreInput.placeholder = "Escribe tu nombre completo";
-                direccionInput.placeholder = "Av. Principal 123, Urb. XXX";
-
-                // 1. Validar Nombre
-                if (nombreInput.value.trim() === "") {
-                    nombreInput.placeholder = "¡FALTA el nombre!";
-                    nombreInput.style.borderColor = "red";
-                    falta = true;
+                if (pedidos.length === 0) {
+                    productsTextarea.value = "No hay productos en el carrito.";
+                    totalInput.value = "$0.00";
+                    return;
                 }
 
-                // 2. Validar Dirección
-                if (direccionInput.value.trim() === "") {
-                    direccionInput.placeholder = "¡FALTA la dirección!";
-                    direccionInput.style.borderColor = "red";
-                    falta = true;
-                }
-                
-                // 3. Validar si hay productos seleccionados
-                const productosSeleccionados = JSON.parse(localStorage.getItem('sweetRoutePedidos')) || [];
-                if (productosSeleccionados.length === 0) {
-                    modalMensaje.textContent = "¡FALTA! No hay productos añadidos al pedido.";
-                    abrirModal();
-                    falta = true;
-                }
-                
-                // 4. Mostrar resultado
-                if (!falta) {
-                    // Pedido Exitoso
-                    modalMensaje.textContent = "¡Su pedido ha sido exitoso! Pronto lo recibirás.";
-                    abrirModal();
+                let total = 0;
+                let productList = [];
+
+                pedidos.forEach(item => {
+                    productList.push(item);
                     
-                    // Limpiar el carrito después de un pedido exitoso
-                    localStorage.removeItem('sweetRoutePedidos');
-                    // Actualizar el área de texto
-                    productosArea.value = "Pedido enviado. Carrito vacío.";
-                } else if (falta && productosSeleccionados.length > 0) {
-                    // Solo falta nombre o dirección, y el modal no se abrió por falta de productos
-                    // (La validación de Nombre/Dirección ya marcó los campos, que es lo que pediste)
+                    // Extraer el precio (ejemplo: "Pastel ($18.50)")
+                    const priceMatch = item.match(/\$([\d.]+)/);
+                    if (priceMatch && priceMatch[1]) {
+                        total += parseFloat(priceMatch[1]);
+                    }
+                });
+
+                productsTextarea.value = productList.join('\n');
+                totalInput.value = `$${total.toFixed(2)}`;
+            }
+
+            // --- Lógica de Eliminación (NUEVA) ---
+
+            // Eliminar al presionar Enter en el campo
+            removeInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault(); // Evita el envío del formulario si existiera
+                    removeItemFromCart();
                 }
             });
 
-            window.cerrarModal = () => {
-                modal.style.display = "none";
+            // Eliminar al presionar el botón "Quitar Producto"
+            removeButton.addEventListener('click', removeItemFromCart);
+
+            function removeItemFromCart() {
+                const productNameToRemove = removeInput.value.trim().toLowerCase();
+                
+                if (!productNameToRemove) {
+                    alert("Por favor, introduce el nombre del producto que deseas quitar.");
+                    return;
+                }
+                
+                let pedidos = JSON.parse(localStorage.getItem('sweetRoutePedidos')) || [];
+                let initialLength = pedidos.length;
+                
+                // Filtra la lista, manteniendo solo los que NO contienen el nombre a remover
+                pedidos = pedidos.filter(item => 
+                    !item.toLowerCase().includes(productNameToRemove)
+                );
+                
+                if (pedidos.length < initialLength) {
+                    // Si se eliminó al menos un elemento
+                    localStorage.setItem('sweetRoutePedidos', JSON.stringify(pedidos));
+                    loadAndDisplayProducts();
+                    removeInput.value = '';
+                    alert(`✅ Producto(s) con "${productNameToRemove}" quitado(s).`);
+                } else {
+                    alert(`❌ No se encontró ningún producto con el nombre "${productNameToRemove}".`);
+                }
             }
+
+            // --- Lógica de Confirmación ---
             
-            function abrirModal() {
+            confirmarButton.addEventListener('click', () => {
+                // Validación simple de campos
+                const nombre = document.getElementById('nombre').value;
+                const direccion = document.getElementById('direccion').value;
+                const telefono = document.getElementById('telefono').value;
+                
+                if (!nombre || !direccion || !telefono) {
+                    alert("Por favor, completa todos los campos de contacto y dirección antes de finalizar el pedido.");
+                    return;
+                }
+
+                // Simular el proceso de pedido
                 modal.style.display = "flex";
-            }
+                
+                // Opcional: Limpiar el carrito después de la confirmación (descomentar para activar)
+                // localStorage.removeItem('sweetRoutePedidos'); 
+            });
+
+            // Lógica para cerrar el modal
+            closeModalButton.addEventListener('click', () => {
+                modal.style.display = "none";
+                // Recargar productos (mostrará "No hay productos" si se limpió el carrito)
+                loadAndDisplayProducts(); 
+            });
+
+            // Carga inicial
+            loadAndDisplayProducts();
         });
     </script>
 </body>
