@@ -1,265 +1,313 @@
-/* Paleta de colores SweetRoute Deluxe */
-:root {
-    --fondo-principal: #FAF3E0; /* Crema claro suave 🍮 */
-    --acento-rosa: #E8B4B8; /* Rosa empolvado 🌸 */
-    --acento-dorado: #D4AF37; /* Dorado elegante ✨ */
-    --texto-principal: #3B2F2F; /* Marrón oscuro 🍫 */
-    --fondo-secundario: #FFF8F0; /* Beige cálido/blanco perlado ☁️ */
-    --detalles-tecnologicos: #4F4F4F; /* Gris piedra ⚙️ */
+document.addEventListener('DOMContentLoaded', initializeGame);
+
+// ====================================================================
+// --- DECLARACIÓN GLOBAL DE CONSTANTES Y VARIABLES ---
+// ====================================================================
+
+// Referencias al DOM
+const gameContainer = document.getElementById('gameContainer');
+const playerCircle = document.getElementById('playerCircle');
+
+// FÍSICA Y DIMENSIONES
+const FLOOR_HEIGHT = 50; // Altura del suelo (50px, coincide con CSS)
+const PLAYER_SIZE = 40; 
+const GAME_SPEED = 3.5; 
+const GRAVITY = 0.5;
+const JUMP_STRENGTH = -10; 
+const CONTAINER_WIDTH = 900; // Asumimos un ancho fijo para el cálculo del nivel
+
+// ESTADO DEL JUGADOR
+let playerX = 50;
+let playerY = FLOOR_HEIGHT; 
+let playerVelocityY = 0;
+let isJumping = false;
+let isOnPlatform = false; 
+
+// GESTIÓN DE NIVELES Y PATRONES
+let patternElements = []; // Elementos activos en el DOM
+let currentPatternIndex = 0;
+let nextPatternSpawnX = CONTAINER_WIDTH; // Posición X donde debe comenzar el siguiente patrón
+
+// --- DEFINICIÓN DE LOS 3 PATRONES DE MAPA (Ajustados para espaciado) ---
+// La 'width' es CRUCIAL para evitar superposiciones.
+const PATTERNS = [
+    {
+        width: 700, // Ancho que ocupa el patrón
+        spacing: 300, // Espacio libre después del patrón antes del siguiente
+        elements: [
+            { type: 'spike', x: 50, y: FLOOR_HEIGHT },
+            { type: 'platform', x: 150, y: FLOOR_HEIGHT + 70, w: 100 },
+            { type: 'collectible', x: 200, y: FLOOR_HEIGHT + 110 },
+            { type: 'platform', x: 400, y: FLOOR_HEIGHT + 100, w: 80 },
+            { type: 'spike', x: 600, y: FLOOR_HEIGHT },
+        ]
+    },
+    {
+        width: 600,
+        spacing: 250,
+        elements: [
+            { type: 'platform', x: 100, y: FLOOR_HEIGHT + 50, w: 60 },
+            { type: 'collectible', x: 115, y: FLOOR_HEIGHT + 90 },
+            { type: 'spike', x: 300, y: FLOOR_HEIGHT },
+            { type: 'platform', x: 450, y: FLOOR_HEIGHT + 100, w: 120 },
+            { type: 'spike', x: 550, y: FLOOR_HEIGHT },
+        ]
+    },
+    {
+        width: 750,
+        spacing: 350,
+        elements: [
+            { type: 'spike', x: 50, y: FLOOR_HEIGHT },
+            { type: 'platform', x: 200, y: FLOOR_HEIGHT + 30, w: 50 },
+            { type: 'spike', x: 350, y: FLOOR_HEIGHT },
+            { type: 'platform', x: 450, y: FLOOR_HEIGHT + 60, w: 100 },
+            { type: 'collectible', x: 500, y: FLOOR_HEIGHT + 100 },
+            { type: 'spike', x: 650, y: FLOOR_HEIGHT },
+        ]
+    },
+];
+
+// ====================================================================
+// --- LÓGICA DE INICIALIZACIÓN Y BUCLE PRINCIPAL ---
+// ====================================================================
+
+function initializeGame() {
+    // Establece el ancho inicial del contenedor (necesario para el cálculo de aparición)
+    if (gameContainer) {
+        gameContainer.style.width = CONTAINER_WIDTH + 'px';
+    }
+
+    // Asegura que el jugador esté posicionado correctamente
+    playerCircle.style.left = playerX + 'px';
+    playerCircle.style.bottom = playerY + 'px';
+
+    // Evento de salto
+    document.addEventListener('keydown', handleKeyDown);
+
+    // Carga el primer patrón
+    loadNextPattern();
+    
+    // Inicia el bucle de juego
+    gameLoop(); 
 }
 
-/* ------------------ ESTILOS GLOBALES ------------------ */
-body {
-    font-family: 'Arial', sans-serif; 
-    background-color: var(--fondo-principal); 
-    color: var(--texto-principal);
-    margin: 0;
-    padding: 0;
-    line-height: 1.6;
+function gameLoop() {
+    updatePlayerPhysics();
+    moveGameElements();
+    checkCollisions();
+    
+    // Solicita el siguiente fotograma
+    requestAnimationFrame(gameLoop); 
 }
 
-/* ------------------ BARRA DE NAVEGACIÓN (HEADER) ------------------ */
-.navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 50px;
-    background-color: var(--fondo-secundario); 
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+// ====================================================================
+// --- GESTIÓN DE NIVELES Y MAPAS (NO SE SUPERPONEN) ---
+// ====================================================================
+
+/**
+ * Crea un elemento de juego en el DOM.
+ * @param {string} type - Clase CSS del elemento.
+ * @param {number} x - Posición Left.
+ * @param {number} y - Posición Bottom.
+ * @param {number} width - Ancho del elemento.
+ */
+function createGameElement(type, x, y, width = 30) {
+    const element = document.createElement('div');
+    element.classList.add(type);
+    element.style.left = x + 'px';
+    element.style.bottom = y + 'px';
+
+    if (type === 'platform') {
+        element.style.width = width + 'px';
+    }
+    
+    gameContainer.appendChild(element);
+    return element;
 }
 
-.titulo {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: var(--acento-dorado); 
-    padding: 8px 15px;
-    border-radius: 20px;
-    border: 2px solid var(--acento-dorado);
+/**
+ * Carga el siguiente patrón basado en la posición de aparición precalculada (nextPatternSpawnX).
+ */
+function loadNextPattern() {
+    if (isJumping) return; // Evita errores si se intenta cargar durante el salto
+
+    const pattern = PATTERNS[currentPatternIndex];
+    const initialSpawnX = nextPatternSpawnX;
+    let maxPatternX = 0;
+
+    pattern.elements.forEach(item => {
+        const xPos = initialSpawnX + item.x;
+        const element = createGameElement(
+            item.type,
+            xPos,
+            item.y,
+            item.w
+        );
+        patternElements.push(element);
+
+        // Calcula el punto más a la derecha del elemento para determinar el final del patrón
+        const elementRightEdge = xPos + (item.w || 30);
+        if (elementRightEdge > maxPatternX) {
+            maxPatternX = elementRightEdge;
+        }
+    });
+
+    // Actualiza el punto de inicio para el siguiente patrón:
+    // (Punto final del patrón actual) + (Espacio libre antes del siguiente)
+    nextPatternSpawnX = maxPatternX + pattern.spacing; 
+
+    // Avanza el índice y hace el bucle
+    currentPatternIndex = (currentPatternIndex + 1) % PATTERNS.length;
 }
 
-.nav-links a {
-    text-decoration: none;
-    color: var(--texto-principal);
-    padding: 10px 15px;
-    margin: 0 5px;
-    border-radius: 20px; 
-    transition: background-color 0.3s;
+/**
+ * Mueve todos los elementos activos y gestiona la aparición de nuevos patrones.
+ */
+function moveGameElements() {
+    let allElementsOut = true;
+
+    // 1. Mueve el punto de aparición para el siguiente patrón
+    nextPatternSpawnX -= GAME_SPEED;
+
+    // 2. Mueve y limpia los elementos activos
+    patternElements = patternElements.filter(element => {
+        let currentLeft = parseFloat(element.style.left) || 0;
+        element.style.left = (currentLeft - GAME_SPEED) + 'px';
+        
+        // Si el elemento sigue en pantalla, la ruta continúa
+        if (currentLeft > -100) { 
+            allElementsOut = false;
+        }
+        
+        // Limpieza: si el elemento salió completamente, lo elimina
+        if (currentLeft < -100) {
+            element.remove();
+            return false; 
+        }
+        return true;
+    });
+
+    // 3. Lógica de Aparición (Si el punto de inicio está cerca y el patrón anterior terminó)
+    if (nextPatternSpawnX <= CONTAINER_WIDTH && allElementsOut) {
+        loadNextPattern();
+    }
 }
 
-.nav-links a:hover,
-.nav-links a.active {
-    background-color: var(--acento-rosa); 
-    color: white; 
-    font-weight: bold;
+// ====================================================================
+// --- FÍSICA Y COLISIÓN ROBUSTA (SOLUCIÓN AL REBOTE) ---
+// ====================================================================
+
+/**
+ * Aplica gravedad y actualiza la posición vertical del jugador.
+ */
+function updatePlayerPhysics() {
+    // 1. Reinicia el estado de 'isOnPlatform'
+    isOnPlatform = false; 
+
+    // 2. Aplica velocidad y gravedad
+    playerY += playerVelocityY;
+    playerVelocityY += GRAVITY;
+
+    // 3. Colisión con el suelo FÍSICO (Garantiza que no caiga infinitamente)
+    if (playerY < FLOOR_HEIGHT) { 
+        playerY = FLOOR_HEIGHT; 
+        playerVelocityY = 0;    
+        isJumping = false; 
+        isOnPlatform = true; // El suelo es la plataforma base
+    }
+
+    // 4. Actualiza la posición visual
+    playerCircle.style.bottom = playerY + 'px';
 }
 
-.login-btn {
-    background-color: var(--acento-dorado);
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 20px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.3s;
+/**
+ * Verifica colisiones con obstáculos y plataformas.
+ */
+function checkCollisions() {
+    // Define el área de colisión del jugador (Bottom/Top son invertidos en CSS/JS)
+    const playerRect = {
+        left: playerX,
+        right: playerX + PLAYER_SIZE,
+        top: playerY, 
+        bottom: playerY + PLAYER_SIZE
+    };
+
+    // La colisión de aterrizaje solo es relevante si el jugador está cayendo
+    const isLanding = playerVelocityY > 0; 
+    
+    // Itera sobre todos los elementos activos
+    patternElements.forEach(element => {
+        // Obtenemos el rectángulo del obstáculo
+        const elementLeft = parseFloat(element.style.left);
+        const elementBottom = parseFloat(element.style.bottom);
+        const elementWidth = element.offsetWidth;
+        const elementHeight = element.offsetHeight;
+        
+        const elementCollisionRect = {
+            left: elementLeft,
+            right: elementLeft + elementWidth,
+            top: elementBottom, 
+            bottom: elementBottom + elementHeight,
+        };
+
+        // Detección de Colisión (Intersección de Rectángulos)
+        const isColliding = (
+            playerRect.left < elementCollisionRect.right &&
+            playerRect.right > elementCollisionRect.left &&
+            playerRect.top < elementCollisionRect.bottom &&
+            playerRect.bottom > elementCollisionRect.top
+        );
+
+        if (isColliding) {
+            if (element.classList.contains('collectible')) {
+                // Cubo (Recompensa): Eliminado al contacto
+                element.remove(); 
+                patternElements = patternElements.filter(el => el !== element);
+            } else if (element.classList.contains('spike')) {
+                // Pincho (Peligro): Game Over
+                alert('¡Ruta fallida! Tocaste un pincho. Recarga la página.');
+                location.reload(); 
+            } else if (element.classList.contains('platform')) {
+                // Plataforma: Aterrizaje o Bloqueo
+                
+                // LÓGICA DE ATERRIZAJE (Si viene de arriba)
+                // Se comprueba si la parte inferior del jugador está cayendo sobre el borde superior de la plataforma
+                if (isLanding && playerRect.bottom <= elementCollisionRect.top + GAME_SPEED) { 
+                    playerY = elementCollisionRect.top - PLAYER_SIZE; // Fija el jugador encima
+                    playerVelocityY = 0;
+                    isJumping = false;
+                    isOnPlatform = true; // Jugador está estable
+                }
+                
+                // LÓGICA DE BLOQUEO (Si choca lateralmente o por debajo)
+                // Si está colisionando pero NO aterrizando, lo más probable es que esté chocando por debajo o lateralmente.
+                else if (!isOnPlatform) {
+                    // Si choca por debajo (rompe el salto)
+                    if (playerVelocityY < 0 && playerRect.bottom > elementCollisionRect.bottom) {
+                        playerVelocityY = 0;
+                    }
+                    // Si choca lateralmente (opcional: detener movimiento horizontal o empujar)
+                    // Por simplicidad, en este juego de un solo eje de movimiento, solo la detección de aterrizaje es crítica.
+                }
+            }
+        }
+    });
+    
+    // Si el jugador no está en el suelo (50px) y no está en una plataforma, ¡está saltando/cayendo!
+    if (playerY > FLOOR_HEIGHT && !isOnPlatform) {
+        isJumping = true; 
+    }
 }
 
-.login-btn:hover {
-    background-color: #C39C2D; 
+// ====================================================================
+// --- CONTROL DE ENTRADA ---
+// ====================================================================
+
+function handleKeyDown(event) {
+    // Solo permite saltar si NO está actualmente saltando (es decir, está sobre el suelo o una plataforma)
+    if (event.code === 'Space' && !isJumping) { 
+        playerVelocityY = JUMP_STRENGTH;
+        isJumping = true;
+        isOnPlatform = false; // Ya no está sobre la superficie
+    }
 }
-
-/* ------------------ CONTENIDO PRINCIPAL Y SECCIONES ------------------ */
-main {
-    padding: 20px 50px;
-}
-
-.section-title-sub {
-    background-color: var(--detalles-tecnologicos);
-    color: white;
-    padding: 5px 15px;
-    width: fit-content;
-    border-radius: 15px;
-    margin-bottom: 20px;
-    font-size: 1rem;
-}
-
-.content-box {
-    background-color: var(--fondo-secundario);
-    padding: 40px;
-    border-radius: 25px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-}
-
-
-/* ------------------ ESTILOS DE PRODUCTOS (2.png) ------------------ */
-
-.product-grid {
-    display: flex;
-    gap: 30px;
-    overflow-x: auto; 
-    padding: 20px 0;
-    margin: 0;
-}
-
-.product-card {
-    min-width: 250px; 
-    flex-shrink: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.product-image {
-    background-color: var(--fondo-secundario); 
-    height: 200px; 
-    border-radius: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: var(--detalles-tecnologicos);
-    font-weight: bold;
-    border: 3px solid var(--acento-rosa);
-}
-
-.product-info {
-    background-color: var(--acento-rosa);
-    color: white;
-    padding: 15px;
-    border-radius: 15px;
-    text-align: center;
-    font-weight: bold;
-}
-
-/* ------------------ ESTILOS DE PEDIDOS (3.png) ------------------ */
-
-.order-layout {
-    display: grid;
-    grid-template-columns: 2fr 1fr; /* Una columna grande para el mapa, una pequeña para el formulario */
-    gap: 30px;
-    margin-top: 20px;
-}
-
-.map-container {
-    background-color: var(--detalles-tecnologicos);
-    padding: 30px;
-    height: 500px;
-    border-radius: 25px;
-    color: white;
-    text-align: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 1.2rem;
-}
-
-.order-form-controls {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.form-control, .form-button, .display-box {
-    padding: 15px;
-    border-radius: 15px;
-    text-align: center;
-    font-weight: bold;
-}
-
-.form-control {
-    background-color: var(--fondo-secundario);
-    border: 1px solid var(--acento-rosa);
-    color: var(--texto-principal);
-}
-
-.display-box {
-    background-color: var(--acento-rosa);
-    color: white;
-    min-height: 100px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.confirm-btn {
-    background-color: var(--acento-dorado);
-    color: white;
-    padding: 15px;
-    border: none;
-    border-radius: 15px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.confirm-btn:hover {
-    background-color: #C39C2D;
-} 
-
-/* ... (El resto del código CSS SweetRoute Deluxe se mantiene igual) ... */
-
-/* ------------------ ESTILOS PARA EL JUEGO (index.html) ------------------ */
-
-.game-area-wrapper {
-    /* Nuevo contenedor para el juego, que va DEBAJO de la descripción */
-    margin-top: 20px;
-    padding: 30px;
-    background-color: var(--detalles-tecnologicos); /* Fondo gris oscuro del área de juego */
-    border-radius: 25px;
-    position: relative;
-    overflow: hidden; 
-    min-height: 400px;
-}
-
-/* El suelo verde */
-.game-floor {
-    /* Gradiente verde-lima para el suelo */
-    background: linear-gradient(to right, #98fb98, #6b8e23); 
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 50px; /* Altura del suelo */
-    z-index: 1; /* Asegura que esté detrás de las plataformas y el jugador, pero visible */
-    border-radius: 0 0 25px 25px; /* Bordes redondeados inferiores */
-}
-
-/* Elementos del juego */
-.player-circle {
-    width: 40px;
-    height: 40px;
-    background: linear-gradient(to bottom right, #5e00ff, #00d9ff); 
-    border-radius: 50%;
-    position: absolute;
-    bottom: 50px; /* Posición inicial: JUSTO encima del suelo (50px) */
-    left: 50px; 
-    z-index: 10;
-}
-
-.platform {
-    background-color: lightgray; 
-    border-radius: 15px;
-    position: absolute;
-    z-index: 5;
-    height: 30px; 
-}
-
-.collectible {
-    width: 30px;
-    height: 30px;
-    background: linear-gradient(to bottom right, #FFD700, #FFFF00); 
-    position: absolute;
-    z-index: 6;
-    border-radius: 5px; 
-}
-
-.spike {
-    width: 0;
-    height: 0;
-    border-left: 20px solid transparent;
-    border-right: 20px solid transparent;
-    border-bottom: 30px solid black; 
-    position: absolute;
-    z-index: 7;
-}
-
-/* ------------------ FIN ESTILOS JUEGO ------------------ */
