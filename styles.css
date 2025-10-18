@@ -8,6 +8,7 @@
     --texto-principal-marron: #3B2F2F;     /* Texto principal (Marrón oscuro) */
     --fondo-secundario-perlado: #FFF8F0;   /* Fondo secundario (Beige cálido) */
     --detalles-tecnologicos: #4F4F4F;      /* Gris piedra (Botones/Detalles) */
+    --cafe-suave: #C7B7A7;                 /* Marrón suave para fondos de imagen */
      
     /* --- VARIABLES DE DISEÑO --- */
     --font-titulo: 'Cormorant Garamond', 'Playfair Display', serif;
@@ -15,7 +16,6 @@
     --borde-redondeado: 10px;
     --borde-redondeado-extremo: 20px;
     --sombra-suave: 0 4px 10px rgba(0, 0, 0, 0.05);
-    --cafe-suave: #C7B7A7; /* Añadido para dar color a los fondos de las imágenes */
 }
 
 body {
@@ -42,15 +42,13 @@ main {
     justify-content: space-between;
     align-items: center;
     box-shadow: var(--sombra-suave);
-    /* Borde de acento dorado en la parte inferior de la barra */
     border-bottom: 3px solid var(--acento-dorado); 
 }
 
 /* Estilo para los botones de la navegación (Título, Links, Login) */
 .titulo, .nav-links a, .login-container .login-btn {
-    /* Base Gris Piedra para botones tecnológicos */
     background-color: var(--detalles-tecnologicos);
-    color: var(--fondo-secundario-perlado); /* Texto blanco/perlado */
+    color: var(--fondo-secundario-perlado);
     padding: 10px 20px;
     border-radius: var(--borde-redondeado);
     font-weight: 500;
@@ -63,7 +61,6 @@ main {
     font-family: var(--font-titulo);
     font-size: 1.5em;
     font-weight: 600;
-    /* Título destacado con acento dorado */
     background-color: var(--acento-dorado); 
     color: var(--texto-principal-marron);
 }
@@ -75,14 +72,12 @@ main {
 }
 
 .nav-links a:hover {
-    /* Efecto hover suave: brillo dorado tenue */
     background-color: var(--detalles-tecnologicos);
     box-shadow: 0 0 10px var(--acento-dorado);
     transform: translateY(-2px);
 }
 
 .nav-links a.active {
-    /* El elemento activo usa el acento Rosa Pastel (toque dulce) */
     background-color: var(--acento-rosa); 
     color: var(--texto-principal-marron); 
 }
@@ -98,20 +93,17 @@ main {
     font-weight: 600;
     font-size: 1.4em;
     color: var(--texto-principal-marron);
-     
-    /* El título en sí se destaca sobre el fondo con color rosa */
     background-color: var(--acento-rosa);
     display: inline-block;
     padding: 8px 15px;
     border-radius: var(--borde-redondeado);
     margin-bottom: 20px;
     margin-top: 20px;
-    box-shadow: 2px 2px 0 var(--detalles-tecnologicos); /* Sombra sutil */
+    box-shadow: 2px 2px 0 var(--detalles-tecnologicos);
 }
 
 /* --- CAJAS DE CONTENIDO PRINCIPALES (index.html) --- */
 
-/* La caja de descripción principal (Cálida y clara) */
 .content-box-main {
     background-color: var(--fondo-secundario-perlado); 
     color: var(--texto-principal-marron);
@@ -124,9 +116,7 @@ main {
     box-shadow: var(--sombra-suave);
 }
 
-/* Caja de efecto especial degradado (index.html) */
 .content-box-special {
-    /* Degradado usando los colores cálidos de la paleta */
     background: linear-gradient(90deg, var(--acento-rosa), var(--fondo-principal-crema)); 
     color: var(--texto-principal-marron); 
     padding: 30px;
@@ -138,10 +128,9 @@ main {
     text-align: center;
     font-size: 1.2em;
     font-weight: bold;
-    box-shadow: 0 0 15px rgba(212, 175, 55, 0.4); /* Sombra con acento dorado */
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
 }
 
-/* Estilo de los emojis flotantes (se mantiene el estilo funcional) */
 .emoji {
     position: absolute;
     font-size: 30px;
@@ -157,7 +146,6 @@ main {
 }
 
 .product-grid {
-    /* 6 elementos por carril, manteniendo el layout visual */
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); 
     gap: 20px;
@@ -165,7 +153,6 @@ main {
 }
 
 .product-card {
-    /* Fondo que contrasta con el principal, usando el Marrón Oscuro */
     background-color: var(--texto-principal-marron); 
     border-radius: var(--borde-redondeado-extremo);
     padding: 15px;
@@ -176,11 +163,11 @@ main {
 
 .product-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(212, 175, 55, 0.5); /* Brillo dorado al pasar el mouse */
+    box-shadow: 0 8px 20px rgba(212, 175, 55, 0.5);
 }
 
 .product-image {
-    background-color: var(--cafe-suave); /* Marrón claro como fondo de producto */
+    background-color: var(--cafe-suave);
     border-radius: var(--borde-redondeado);
     min-height: 150px;
     display: flex;
@@ -198,35 +185,55 @@ main {
     border-radius: var(--borde-redondeado);
 }
 
-/* El área clickable de la información del producto */
 .product-info {
-    /* Fondo de descripción: Crema claro para legibilidad sobre el Marrón Oscuro de la tarjeta */
     background-color: var(--fondo-principal-crema); 
     color: var(--texto-principal-marron);
     padding: 10px;
     border-radius: var(--borde-redondeado);
     font-size: 0.9em;
     font-weight: 500;
-    display: flex; /* Permite alinear el texto y el emoji */
-    justify-content: space-between; /* Mantiene el espacio entre el texto y el emoji */
+    display: flex;
+    flex-direction: column; 
+    justify-content: space-between;
+    align-items: stretch;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    height: auto;
+}
+
+/* Estilo del recuadro para el botón "Agregar Producto" (NUEVO) */
+.add-button-box {
+    background-color: var(--acento-dorado);
+    color: var(--texto-principal-marron);
+    padding: 6px 10px;
+    border-radius: var(--borde-redondeado);
+    font-weight: 600;
+    font-size: 0.9em;
+    height: 25px; 
+    position: relative;
+    overflow: hidden;
+    display: flex;
     align-items: center;
-    cursor: pointer; /* Indica que es clickable */
+    justify-content: center;
     transition: background-color 0.2s ease;
 }
 
-.product-info:active {
-    background-color: var(--acento-rosa); /* Pequeña respuesta visual al hacer clic */
+.add-button-box:hover {
+    background-color: #C19E32; /* Tono de dorado más oscuro al pasar el mouse */
 }
 
-/* --- ESTILO PARA EL EMOJI DE CONFIRMACIÓN EN PRODUCTOS (Nuevo) --- */
+.add-text {
+    position: absolute;
+    transition: opacity 0.3s ease-in-out;
+}
 
+/* Estilo para el emoji de confirmación (NUEVO) */
 .product-added-emoji {
-    font-size: 1.5em; /* Tamaño del emoji (la empanada 🥟) */
-    margin-left: 10px;
-    opacity: 0; /* Empieza invisible */
-    transition: opacity 0.3s ease-in-out; /* Transición suave */
-    pointer-events: none; /* Asegura que el clic va al .product-info padre */
-    flex-shrink: 0; /* Evita que el emoji se comprima */
+    position: absolute;
+    font-size: 1.5em; 
+    opacity: 0; /* CORREGIDO: Empieza invisible */
+    transition: opacity 0.3s ease-in-out; 
+    pointer-events: none;
 }
 
 /* --- ESTILOS ESPECÍFICOS DE PEDIDOS (pedidos.html) --- */
@@ -234,39 +241,40 @@ main {
 .pedido-container {
     display: flex;
     gap: 20px;
+    flex-wrap: wrap; 
 }
 
 .map-column {
-    flex: 2; /* Ocupa más espacio (Google Maps) */
+    flex: 2;
     min-width: 450px;
+    flex-grow: 1;
 }
 
 .form-column {
-    flex: 1; /* Ocupa menos espacio (Formulario) */
+    flex: 1;
     min-width: 300px;
+    flex-grow: 1;
 }
 
 .google-maps-box {
-    background-color: var(--detalles-tecnologicos); /* Gris oscuro tecnológico */
+    background-color: var(--detalles-tecnologicos);
     min-height: 450px; 
     padding: 10px;
     border-radius: var(--borde-redondeado-extremo);
     margin-bottom: 20px;
-    /* --- CORRECCIONES PARA AJUSTAR EL MAPA (NUEVO) --- */
-    display: flex; /* Usa flexbox para alinear el iframe */
+    /* Corrección para que el iframe se ajuste perfectamente */
+    display: flex; 
     align-items: center;
     justify-content: center;
-    overflow: hidden; /* Asegura que no haya desbordamiento */
+    overflow: hidden;
 }
 
-/* Estilo para que el IFRAME del mapa llene completamente el contenedor (Nuevo) */
 .google-maps-box iframe {
     width: 100%;
     height: 100%;
-    /* Aseguramos que los bordes redondeados se mantengan */
     border-radius: calc(var(--borde-redondeado-extremo) - 10px); 
     display: block;
-    border: none; /* Asegura que no tenga borde predeterminado */
+    border: none;
 }
 
 .form-box {
@@ -285,7 +293,6 @@ main {
     font-weight: 500;
 }
 
-/* Estilo para los campos de texto/botones pequeños de pedidos */
 .input-field {
     background-color: var(--fondo-principal-crema);
     color: var(--texto-principal-marron);
@@ -299,14 +306,11 @@ main {
     transition: border-color 0.3s;
 }
 
-/* ESTILOS ADICIONALES PARA BOTONES DE ACCIÓN (pedidos.html) */
-.action-button.confirm {
-    background-color: var(--acento-dorado);
-    color: var(--texto-principal-marron);
-    padding: 15px 25px;
+/* Estilos de botones de acción */
+.action-button {
+    padding: 12px 20px;
     border: none;
     border-radius: var(--borde-redondeado);
-    font-size: 1.1em;
     font-weight: 600;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease;
@@ -314,23 +318,54 @@ main {
     display: block;
     width: 100%;
     box-sizing: border-box;
+    margin-bottom: 10px;
+}
+
+/* Contenedor y estilos para "Quitar Producto" (NUEVO) */
+#remove-product-container {
+    margin-top: 15px;
+    margin-bottom: 20px;
+    border-top: 1px dashed var(--acento-rosa);
+    padding-top: 15px;
+}
+
+.action-button.remove-btn {
+    background-color: var(--acento-rosa); 
+    color: var(--texto-principal-marron);
+    margin-bottom: 5px;
+}
+
+.action-button.remove-btn:hover {
+    background-color: #DDAABB;
+}
+
+#remove-product-name {
+    text-align: center;
+    border: 2px solid var(--acento-rosa);
+}
+
+.action-button.confirm {
+    background-color: var(--acento-dorado);
+    color: var(--texto-principal-marron);
+    padding: 15px 25px;
+    font-size: 1.1em;
 }
 
 .action-button.confirm:hover {
-    background-color: #C19E32; /* Tono de dorado más oscuro */
+    background-color: #C19E32;
     transform: scale(1.02);
 }
 
 /* Estilo para textarea readonly (productos pedidos) */
 #productos-pedidos {
-    resize: vertical; /* Permite redimensionar solo verticalmente */
+    resize: vertical;
     min-height: 150px;
 }
 
 /* --- ESTILOS DE LA VENTANA MODAL (CONFIRMACIÓN) --- */
 
 .modal {
-    display: none; /* Oculto por defecto */
+    display: none;
     position: fixed; 
     z-index: 1000; 
     left: 0;
@@ -338,13 +373,12 @@ main {
     width: 100%;
     height: 100%;
     overflow: auto;
-    background-color: rgba(0, 0, 0, 0.4); /* Fondo semi-transparente oscuro */
+    background-color: rgba(0, 0, 0, 0.4);
     justify-content: center;
     align-items: center;
 }
 
 .modal-content {
-    /* Ventana pequeña, rectangular, centrada */
     background-color: var(--acento-rosa);
     color: var(--texto-principal-marron);
     margin: auto;
@@ -364,4 +398,3 @@ main {
     margin-left: auto;
     margin-right: auto;
 }
-  
