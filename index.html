@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SweetRoute Deluxe - Descripción</title>
+    <title>SweetRoute Deluxe - Descripción y Juego</title>
     <link rel="stylesheet" href="styles.css"> 
 </head>
 <body>
@@ -12,7 +12,7 @@
         <nav class="nav-links">
             <a href="index.html" class="active">Descripción</a>
             <a href="productos.html">Productos</a>
-            <a href="pedidos.html">Pedidos</a>            
+            <a href="pedidos.html">Pedidos</a>         
         </nav>
         <div class="login-container">
             <button class="login-btn">LOGIN</button>
@@ -20,15 +20,20 @@
     </header>
 
     <main>
-        <div class="section-title-sub">Descripción</div>
-        <div class="content-box" style="height: 500px;">
-            Bienvenido a SweetRoute S.A.C., el nuevo concepto de delivery especializado en postres artesanales.
-Nuestro propósito es combinar la calidez del sabor casero con la precisión de la tecnología, ofreciendo un servicio rápido, seguro y con el toque dulce que cada cliente merece.
+        <div class="section-title-sub">SweetRoute Runner</div>
 
-En esta plataforma podrás conocer nuestros productos, realizar pedidos y seguir de cerca cada etapa del proceso de entrega.
+        <div class="game-container" id="gameContainer">
+            <p class="game-description">
+                **BIENVENIDO a SweetRoute S.A.C.**, el nuevo concepto de delivery especializado en postres artesanales. 
+                <br>
+                **¡JUEGA!** Usa la **barra espaciadora** para saltar. Recolecta el cubo amarillo (postre 🍰) y evita los pinchos (riesgos en la entrega). Si tocas los pinchos, tendrás que recargar la página. ¡Demuestra que puedes completar la ruta de entrega!
+            </p>
+            
+            <div class="player-circle" id="playerCircle"></div>
 
-Porque en SweetRoute creemos que la felicidad también puede llegar… en una caja de postre. 🍰✨
-        </div>
-    </main>
+            </div>
+        </main>
+
+    <script src="game.js"></script> 
 </body>
 </html>
