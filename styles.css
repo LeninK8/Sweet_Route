@@ -207,49 +207,96 @@ main {
     font-weight: 500;
 }
 
-/* --- ESTILOS DE PEDIDOS (pedidos.html) --- */
+/* --- ESTILOS ESPECÍFICOS DE PEDIDOS (pedidos.html) --- */
+
+.pedido-container {
+    display: flex;
+    gap: 20px;
+}
+
+.map-column {
+    flex: 2; /* Ocupa más espacio (Google Maps) */
+    min-width: 450px;
+}
+
+.form-column {
+    flex: 1; /* Ocupa menos espacio (Formulario) */
+    min-width: 300px;
+}
+
+.google-maps-box {
+    background-color: var(--detalles-tecnologicos); /* Gris oscuro tecnológico */
+    min-height: 450px; 
+    padding: 10px;
+    border-radius: var(--borde-redondeado-extremo);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
 .form-box {
     background-color: var(--fondo-secundario-perlado);
     color: var(--texto-principal-marron);
     padding: 20px;
     border-radius: var(--borde-redondeado-extremo);
-    margin-bottom: 20px;
-    text-align: center;
     box-shadow: var(--sombra-suave);
 }
 
-.google-maps-box {
-    background-color: var(--detalles-tecnologicos);
-    min-height: 400px;
-    padding: 20px;
-    border-radius: var(--borde-redondeado-extremo);
-    margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.2em;
-    color: var(--fondo-secundario-perlado);
+.form-box label {
+    display: block;
+    text-align: left;
+    margin-top: 15px;
+    margin-bottom: 5px;
+    font-weight: 500;
 }
 
 /* Estilo para los campos de texto/botones pequeños de pedidos */
-.input-field, .action-button {
-    background-color: var(--detalles-tecnologicos);
-    color: var(--fondo-secundario-perlado);
-    border: 1px solid var(--cafe-suave);
+.input-field {
+    background-color: var(--fondo-principal-crema);
+    color: var(--texto-principal-marron);
+    border: 1px solid var(--detalles-tecnologicos);
     padding: 10px 15px;
     border-radius: var(--borde-redondeado);
-    margin: 5px 0;
+    margin: 5px 0 15px 0;
     width: 100%;
     box-sizing: border-box;
     font-family: var(--font-texto);
+    transition: border-color 0.3s;
 }
 
-.action-button.confirm {
-    /* Botón de confirmación destacado con Dorado */
-    background-color: var(--acento-dorado);
+/* --- ESTILOS DE LA VENTANA MODAL (CONFIRMACIÓN) --- */
+
+.modal {
+    display: none; /* Oculto por defecto */
+    position: fixed; 
+    z-index: 1000; 
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4); /* Fondo semi-transparente oscuro */
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    /* Ventana pequeña, rectangular, centrada */
+    background-color: var(--acento-rosa);
     color: var(--texto-principal-marron);
-    font-weight: 500;
-    cursor: pointer;
-    border-color: var(--acento-dorado);
+    margin: auto;
+    padding: 30px;
+    border-radius: var(--borde-redondeado);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    width: 80%;
+    max-width: 400px; 
+    text-align: center;
+    font-family: var(--font-titulo);
+    font-size: 1.2em;
+}
+
+.modal-content .confirm {
+    margin-top: 20px;
+    width: 60%;
 }
