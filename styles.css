@@ -195,54 +195,61 @@ main {
     background-color: #C39C2D;
 } 
 
+/* ... (El resto del código CSS SweetRoute Deluxe se mantiene igual) ... */
+
 /* ------------------ ESTILOS PARA EL JUEGO (index.html) ------------------ */
 
-.game-container {
-    background-color: var(--detalles-tecnologicos); /* Fondo gris oscuro del área de juego */
-    padding: 30px;
-    border-radius: 25px;
+.game-area-wrapper {
+    /* Nuevo contenedor para el juego, que va DEBAJO de la descripción */
     margin-top: 20px;
-    position: relative; /* Importante para posicionar los elementos del juego */
-    overflow: hidden; /* Oculta elementos que se salen del contenedor */
-    min-height: 400px; /* Altura mínima para el área de juego */
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between; 
+    padding: 30px;
+    background-color: var(--detalles-tecnologicos); /* Fondo gris oscuro del área de juego */
+    border-radius: 25px;
+    position: relative;
+    overflow: hidden; 
+    min-height: 400px;
 }
 
-.game-description {
-    color: white;
-    font-size: 1.1rem;
-    margin-bottom: 20px;
+/* El suelo verde */
+.game-floor {
+    /* Gradiente verde-lima para el suelo */
+    background: linear-gradient(to right, #98fb98, #6b8e23); 
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 50px; /* Altura del suelo */
+    z-index: 1; /* Asegura que esté detrás de las plataformas y el jugador, pero visible */
+    border-radius: 0 0 25px 25px; /* Bordes redondeados inferiores */
 }
 
 /* Elementos del juego */
 .player-circle {
     width: 40px;
     height: 40px;
-    background: linear-gradient(to bottom right, #5e00ff, #00d9ff); /* Degradado azul/morado */
+    background: linear-gradient(to bottom right, #5e00ff, #00d9ff); 
     border-radius: 50%;
     position: absolute;
-    bottom: 50px; /* Posición inicial, ajustaremos con JS */
-    left: 50px; /* Posición inicial, ajustaremos con JS */
+    bottom: 50px; /* Posición inicial: JUSTO encima del suelo (50px) */
+    left: 50px; 
     z-index: 10;
 }
 
 .platform {
-    background-color: lightgray; /* Rectángulos plomos (plataformas) */
+    background-color: lightgray; 
     border-radius: 15px;
     position: absolute;
     z-index: 5;
-    height: 30px; /* Altura constante para las plataformas */
+    height: 30px; 
 }
 
 .collectible {
     width: 30px;
     height: 30px;
-    background: linear-gradient(to bottom right, #FFD700, #FFFF00); /* Degradado amarillo */
+    background: linear-gradient(to bottom right, #FFD700, #FFFF00); 
     position: absolute;
     z-index: 6;
-    border-radius: 5px; /* Cubo ligeramente redondeado */
+    border-radius: 5px; 
 }
 
 .spike {
@@ -250,7 +257,9 @@ main {
     height: 0;
     border-left: 20px solid transparent;
     border-right: 20px solid transparent;
-    border-bottom: 30px solid black; /* Triángulo apuntando hacia arriba */
+    border-bottom: 30px solid black; 
     position: absolute;
     z-index: 7;
 }
+
+/* ------------------ FIN ESTILOS JUEGO ------------------ */
