@@ -12,7 +12,8 @@
         <nav class="nav-links">
             <a href="index.html" class="active">Descripción</a>
             <a href="productos.html">Productos</a>
-            <a href="pedidos.html">Pedidos</a>         
+            <a href="pedidos.html">Pedidos</a>
+            <a href="contactanos.html">Contáctanos</a>
         </nav>
         <div class="login-container">
             <button class="login-btn">LOGIN</button>
@@ -21,14 +22,64 @@
 
     <main>
         <div class="section-title-sub">Descripción</div>
-        <div class="content-box">
-            Bienvenido a SweetRoute S.A.C., el nuevo concepto de delivery especializado en **postres artesanales**.
-            Nuestro propósito es combinar la calidez del sabor casero con la precisión de la tecnología, ofreciendo un servicio rápido, seguro y con el toque dulce que cada cliente merece.
-
-            En esta plataforma podrás conocer nuestros productos, realizar pedidos y seguir de cerca cada etapa del proceso de entrega.
-
-            Porque en SweetRoute creemos que la felicidad también puede llegar… en una caja de postre. 🍰✨
+        
+        <div class="content-box-main">
+            AQUÍ VA LA DESCRIPCIÓN DE SWEETROUTE
+        </div>
+        
+        <div class="content-box-special" id="specialBox">
+            haz clic aquí para ver nuestros platos y bebidas
+            <br><br>
+            (Al presionar, aparecen emojis de comida y bebida)
         </div>
     </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const specialBox = document.getElementById('specialBox');
+            
+            // Emojis de comida y bebida (incluyendo 'empanadas' como comida general)
+            const EMOJIS = ['🍕', '🍔', '🌮', '🥟', '🍜', '🍣', '🍰', '☕', '🥤', '🍺', '🍟', '🍩']; 
+
+            specialBox.addEventListener('click', (event) => {
+                // Función para obtener un emoji aleatorio
+                const randomEmoji = EMOJIS[Math.floor(Math.random() * EMOJIS.length)];
+                
+                // Crea el elemento emoji
+                const emojiElement = document.createElement('div');
+                emojiElement.classList.add('emoji');
+                emojiElement.textContent = randomEmoji;
+                
+                // 1. Posiciona el emoji en el lugar donde se hizo clic (relativo a la caja)
+                const rect = specialBox.getBoundingClientRect();
+                const x = event.clientX - rect.left; // Posición X dentro de la caja
+                const y = event.clientY - rect.top; // Posición Y dentro de la caja
+                
+                emojiElement.style.left = x + 'px';
+                emojiElement.style.top = y + 'px';
+                
+                specialBox.appendChild(emojiElement);
+
+                // 2. Ejecuta la animación (pequeño retardo para asegurar la posición inicial)
+                setTimeout(() => {
+                    // Mueve el emoji a una posición aleatoria y lo hace visible
+                    const targetX = x + (Math.random() - 0.5) * 200; // Mover +/- 100px horizontalmente
+                    const targetY = y - 100; // Mover 100px hacia arriba (simula flotar)
+
+                    emojiElement.style.transition = 'transform 1s ease-out, opacity 1s ease-out';
+                    emojiElement.style.transform = `translate(${targetX - x}px, ${targetY - y}px)`;
+                    emojiElement.style.opacity = 1;
+                    
+                    // 3. Elimina el emoji después de la animación
+                    setTimeout(() => {
+                        emojiElement.style.opacity = 0; // Se desvanece
+                        setTimeout(() => {
+                            emojiElement.remove();
+                        }, 500); // Espera a que se desvanezca completamente para eliminarlo
+                    }, 800);
+                }, 10);
+            });
+        });
+    </script>
 </body>
 </html>
