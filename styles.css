@@ -1,400 +1,346 @@
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Poppins:wght@300;500&display=swap');
 
 :root {
-    /* --- PALETA OFICIAL SWEETROUTE DELUXE --- */
-    --fondo-principal-crema: #FAF3E0;      /* Fondo principal (Crema claro suave) */
-    --acento-rosa: #E8B4B8;                /* Acento 1 (Rosa empolvado) */
-    --acento-dorado: #D4AF37;              /* Acento 2 (Dorado elegante) */
-    --texto-principal-marron: #3B2F2F;     /* Texto principal (Marrón oscuro) */
-    --fondo-secundario-perlado: #FFF8F0;   /* Fondo secundario (Beige cálido) */
-    --detalles-tecnologicos: #4F4F4F;      /* Gris piedra (Botones/Detalles) */
-    --cafe-suave: #C7B7A7;                 /* Marrón suave para fondos de imagen */
-     
-    /* --- VARIABLES DE DISEÑO --- */
-    --font-titulo: 'Cormorant Garamond', 'Playfair Display', serif;
-    --font-texto: 'Poppins', 'Lato', sans-serif;
-    --borde-redondeado: 10px;
-    --borde-redondeado-extremo: 20px;
-    --sombra-suave: 0 4px 10px rgba(0, 0, 0, 0.05);
+  /* --- PALETA OFICIAL SWEETROUTE DELUXE --- */
+  --fondo-principal-crema: #FAF3E0; /* Fondo principal (crema claro suave) */
+  --acento-rosa: #E8B4B8; /* Rosa empolvado elegante */
+  --acento-dorado: #D4AF37; /* Dorado elegante */
+  --texto-principal-marron: #3B2F2F; /* Marrón oscuro para texto */
+  --fondo-secundario-perlado: #FFF8F0; /* Fondo beige cálido */
+  --detalles-tecnologicos: #4F4F4F; /* Gris piedra (botones/detalles) */
+  --cafe-suave: #C7B7A7; /* Marrón suave para fondos de imagen */
+
+  /* --- VARIABLES DE DISEÑO --- */
+  --font-titulo: 'Cormorant Garamond', serif;
+  --font-texto: 'Poppins', sans-serif;
+  --borde-redondeado: 10px;
+  --borde-redondeado-extremo: 20px;
+  --sombra-suave: 0 4px 10px rgba(0, 0, 0, 0.05);
 }
 
+/* --- ESTILO GENERAL --- */
 body {
-    margin: 0;
-    padding: 0;
-    background-color: var(--fondo-principal-crema);
-    color: var(--texto-principal-marron);
-    font-family: var(--font-texto);
-    line-height: 1.6;
+  margin: 0;
+  padding: 0;
+  background-color: var(--fondo-principal-crema);
+  color: var(--texto-principal-marron);
+  font-family: var(--font-texto);
+  line-height: 1.6;
 }
 
 main {
-    padding: 20px 50px;
-    max-width: 1200px;
-    margin: 0 auto;
+  padding: 20px 50px;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
-/* --- BARRA DE NAVEGACIÓN (HEADER) --- */
-
+/* --- NAVBAR --- */
 .navbar {
-    background-color: var(--fondo-secundario-perlado);
-    padding: 10px 50px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: var(--sombra-suave);
-    border-bottom: 3px solid var(--acento-dorado); 
+  background-color: var(--fondo-secundario-perlado);
+  padding: 10px 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: var(--sombra-suave);
+  border-bottom: 3px solid var(--acento-dorado);
 }
 
-/* Estilo para los botones de la navegación (Título, Links, Login) */
 .titulo, .nav-links a, .login-container .login-btn {
-    /* Los botones son Gris piedra o el color de acento */
-    background-color: var(--detalles-tecnologicos);
-    color: var(--fondo-secundario-perlado);
-    padding: 10px 20px;
-    border-radius: var(--borde-redondeado);
-    font-weight: 500;
-    transition: all 0.3s ease;
-    text-align: center;
-    border: none;
+  background-color: var(--detalles-tecnologicos);
+  color: var(--fondo-secundario-perlado);
+  padding: 10px 20px;
+  border-radius: var(--borde-redondeado);
+  font-weight: 500;
+  transition: all 0.3s ease;
+  text-align: center;
+  border: none;
 }
 
 .titulo {
-    font-family: var(--font-titulo);
-    font-size: 1.5em;
-    font-weight: 600;
-    background-color: var(--acento-dorado);  /* Dorado */
-    color: var(--texto-principal-marron);
+  font-family: var(--font-titulo);
+  font-size: 1.5em;
+  font-weight: 600;
+  background-color: var(--acento-dorado);
+  color: var(--texto-principal-marron);
 }
 
 .nav-links a {
-    text-decoration: none;
-    margin: 0 5px;
-    padding: 10px 15px;
+  text-decoration: none;
+  margin: 0 5px;
+  padding: 10px 15px;
 }
 
 .nav-links a:hover {
-    background-color: var(--detalles-tecnologicos);
-    box-shadow: 0 0 10px var(--acento-dorado);
-    transform: translateY(-2px);
+  background-color: var(--detalles-tecnologicos);
+  box-shadow: 0 0 10px var(--acento-dorado);
+  transform: translateY(-2px);
 }
 
 .nav-links a.active {
-    background-color: var(--acento-rosa);  /* Rosa para el activo */
-    color: var(--texto-principal-marron); 
+  background-color: var(--acento-rosa);
+  color: var(--texto-principal-marron);
 }
 
 .login-container .login-btn {
-    cursor: pointer;
+  cursor: pointer;
 }
 
-/* --- TÍTULOS Y SECCIONES (Título de Secciones) --- */
-
+/* --- SECCIONES Y TÍTULOS --- */
 .section-title-sub {
-    font-family: var(--font-titulo);
-    font-weight: 600;
-    font-size: 1.4em;
-    color: var(--texto-principal-marron);
-    background-color: var(--acento-rosa); /* Rosa para el subtítulo */
-    display: inline-block;
-    padding: 8px 15px;
-    border-radius: var(--borde-redondeado);
-    margin-bottom: 20px;
-    margin-top: 20px;
-    box-shadow: 2px 2px 0 var(--detalles-tecnologicos);
+  font-family: var(--font-titulo);
+  font-weight: 600;
+  font-size: 1.4em;
+  color: var(--texto-principal-marron);
+  background-color: var(--acento-rosa);
+  display: inline-block;
+  padding: 8px 15px;
+  border-radius: var(--borde-redondeado);
+  margin-bottom: 20px;
+  margin-top: 20px;
+  box-shadow: 2px 2px 0 var(--detalles-tecnologicos);
 }
 
-/* --- CAJAS DE CONTENIDO PRINCIPALES (index.html) --- */
-
+/* --- CAJAS DE CONTENIDO (INDEX) --- */
 .content-box-main {
-    background-color: var(--fondo-secundario-perlado);  /* Beige cálido */
-    color: var(--texto-principal-marron);
-    padding: 40px 30px;
-    border-radius: var(--borde-redondeado-extremo);
-    min-height: 150px; 
-    font-size: 1.1em;
-    text-align: center;
-    margin-bottom: 20px;
-    box-shadow: var(--sombra-suave);
+  background-color: var(--fondo-secundario-perlado);
+  color: var(--texto-principal-marron);
+  padding: 40px 30px;
+  border-radius: var(--borde-redondeado-extremo);
+  min-height: 150px;
+  font-size: 1.1em;
+  text-align: center;
+  margin-bottom: 20px;
+  box-shadow: var(--sombra-suave);
 }
 
 .content-box-special {
-    background: linear-gradient(90deg, var(--acento-rosa), var(--fondo-principal-crema));  /* Gradiente rosa/crema */
-    color: var(--texto-principal-marron); 
-    padding: 30px;
-    border-radius: var(--borde-redondeado-extremo);
-    min-height: 250px;
-    position: relative; 
-    overflow: hidden; 
-    cursor: pointer; 
-    text-align: center;
-    font-size: 1.2em;
-    font-weight: bold;
-    box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+  background: linear-gradient(90deg, var(--acento-rosa), var(--fondo-principal-crema));
+  color: var(--texto-principal-marron);
+  padding: 30px;
+  border-radius: var(--borde-redondeado-extremo);
+  min-height: 250px;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  text-align: center;
+  font-size: 1.2em;
+  font-weight: bold;
+  box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
 }
 
-.emoji {
-    position: absolute;
-    font-size: 30px;
-    pointer-events: none;
-    opacity: 0;
-    transition: transform 0.5s ease-out, opacity 0.5s ease-out;
-}
-
-/* --- CUADRÍCULA DE PRODUCTOS (productos.html) --- */
-
+/* --- PRODUCTOS --- */
 .product-section {
-    margin-top: 40px; 
+  margin-top: 40px;
 }
 
 .product-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); 
-    gap: 20px;
-    margin-top: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
 }
 
 .product-card {
-    background-color: var(--texto-principal-marron);  /* Marrón oscuro para el borde de la tarjeta */
-    border-radius: var(--borde-redondeado-extremo);
-    padding: 15px;
-    text-align: center;
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background-color: var(--texto-principal-marron);
+  border-radius: var(--borde-redondeado-extremo);
+  padding: 15px;
+  text-align: center;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .product-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(212, 175, 55, 0.5); /* Sombra dorada al pasar el mouse */
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(212, 175, 55, 0.5);
 }
 
 .product-image {
-    background-color: var(--cafe-suave); /* Marrón suave para el fondo de imagen */
-    border-radius: var(--borde-redondeado);
-    min-height: 150px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--fondo-secundario-perlado);
-    margin-bottom: 10px;
-    overflow: hidden;
+  background-color: var(--cafe-suave);
+  border-radius: var(--borde-redondeado);
+  min-height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--fondo-secundario-perlado);
+  margin-bottom: 10px;
+  overflow: hidden;
 }
 
 .product-image img {
-    width: 100%;
-    height: auto;
-    display: block;
-    border-radius: var(--borde-redondeado);
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: var(--borde-redondeado);
 }
 
 .product-info {
-    background-color: var(--fondo-principal-crema);  /* Crema claro para el fondo de info */
-    color: var(--texto-principal-marron);
-    padding: 10px;
-    border-radius: var(--borde-redondeado);
-    font-size: 0.9em;
-    font-weight: 500;
-    display: flex;
-    flex-direction: column; 
-    justify-content: space-between;
-    align-items: stretch;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-    height: auto;
+  background-color: var(--fondo-principal-crema);
+  color: var(--texto-principal-marron);
+  padding: 10px;
+  border-radius: var(--borde-redondeado);
+  font-size: 0.9em;
+  font-weight: 500;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: stretch;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
 }
 
-/* Estilo del recuadro para el botón "Agregar Producto" */
+/* --- BOTONES --- */
 .add-button-box {
-    background-color: var(--acento-dorado); /* Dorado para el botón */
-    color: var(--texto-principal-marron);
-    padding: 6px 10px;
-    border-radius: var(--borde-redondeado);
-    font-weight: 600;
-    font-size: 0.9em;
-    height: 25px; 
-    position: relative;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background-color 0.2s ease;
+  background-color: var(--acento-dorado);
+  color: var(--texto-principal-marron);
+  padding: 6px 10px;
+  border-radius: var(--borde-redondeado);
+  font-weight: 600;
+  font-size: 0.9em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s ease;
 }
 
 .add-button-box:hover {
-    background-color: #C19E32; /* Tono de dorado más oscuro al pasar el mouse */
+  background-color: #C19E32;
 }
 
-.add-text {
-    position: absolute;
-    transition: opacity 0.3s ease-in-out;
-}
-
-/* Estilo para el emoji de confirmación */
-.product-added-emoji {
-    position: absolute;
-    font-size: 1.5em; 
-    opacity: 0; /* Empieza invisible */
-    transition: opacity 0.3s ease-in-out; 
-    pointer-events: none;
-}
-
-/* --- ESTILOS ESPECÍFICOS DE PEDIDOS (pedidos.html) --- */
-
+/* --- PEDIDOS --- */
 .pedido-container {
-    display: flex;
-    gap: 20px;
-    flex-wrap: wrap; 
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
 }
 
 .map-column {
-    flex: 2;
-    min-width: 450px;
-    flex-grow: 1;
+  flex: 2;
+  min-width: 450px;
+  flex-grow: 1;
 }
 
 .form-column {
-    flex: 1;
-    min-width: 300px;
-    flex-grow: 1;
+  flex: 1;
+  min-width: 300px;
+  flex-grow: 1;
 }
 
 .google-maps-box {
-    background-color: var(--detalles-tecnologicos); /* Gris piedra para el fondo del mapa */
-    min-height: 450px; 
-    padding: 10px;
-    border-radius: var(--borde-redondeado-extremo);
-    margin-bottom: 20px;
-    display: flex; 
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
+  background-color: var(--detalles-tecnologicos);
+  min-height: 450px;
+  padding: 10px;
+  border-radius: var(--borde-redondeado-extremo);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
 }
 
 .google-maps-box iframe {
-    width: 100%;
-    height: 100%;
-    border-radius: calc(var(--borde-redondeado-extremo) - 10px); 
-    display: block;
-    border: none;
+  width: 100%;
+  height: 100%;
+  border-radius: calc(var(--borde-redondeado-extremo) - 10px);
+  border: none;
 }
 
 .form-box {
-    background-color: var(--fondo-secundario-perlado); /* Beige cálido para el formulario */
-    color: var(--texto-principal-marron);
-    padding: 20px;
-    border-radius: var(--borde-redondeado-extremo);
-    box-shadow: var(--sombra-suave);
+  background-color: var(--fondo-secundario-perlado);
+  color: var(--texto-principal-marron);
+  padding: 20px;
+  border-radius: var(--borde-redondeado-extremo);
+  box-shadow: var(--sombra-suave);
 }
 
 .form-box label {
-    display: block;
-    text-align: left;
-    margin-top: 15px;
-    margin-bottom: 5px;
-    font-weight: 500;
+  display: block;
+  text-align: left;
+  margin-top: 15px;
+  margin-bottom: 5px;
+  font-weight: 500;
 }
 
 .input-field {
-    background-color: var(--fondo-principal-crema); /* Crema claro para campos de input */
-    color: var(--texto-principal-marron);
-    border: 1px solid var(--detalles-tecnologicos);
-    padding: 10px 15px;
-    border-radius: var(--borde-redondeado);
-    margin: 5px 0 15px 0;
-    width: 100%;
-    box-sizing: border-box;
-    font-family: var(--font-texto);
-    transition: border-color 0.3s;
+  background-color: var(--fondo-principal-crema);
+  color: var(--texto-principal-marron);
+  border: 1px solid var(--detalles-tecnologicos);
+  padding: 10px 15px;
+  border-radius: var(--borde-redondeado);
+  margin: 5px 0 15px 0;
+  width: 100%;
+  box-sizing: border-box;
+  font-family: var(--font-texto);
+  transition: border-color 0.3s;
 }
 
-/* Estilos de botones de acción */
 .action-button {
-    padding: 12px 20px;
-    border: none;
-    border-radius: var(--borde-redondeado);
-    font-weight: 600;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    text-decoration: none;
-    display: block;
-    width: 100%;
-    box-sizing: border-box;
-    margin-bottom: 10px;
-}
-
-/* Contenedor y estilos para "Quitar Producto" */
-#remove-product-container {
-    margin-top: 15px;
-    margin-bottom: 20px;
-    border-top: 1px dashed var(--acento-rosa);
-    padding-top: 15px;
+  padding: 12px 20px;
+  border: none;
+  border-radius: var(--borde-redondeado);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  text-decoration: none;
+  display: block;
+  width: 100%;
+  margin-bottom: 10px;
 }
 
 .action-button.remove-btn {
-    background-color: var(--acento-rosa); /* Rosa para el botón Quitar */
-    color: var(--texto-principal-marron);
-    margin-bottom: 5px;
+  background-color: var(--acento-rosa);
+  color: var(--texto-principal-marron);
 }
 
 .action-button.remove-btn:hover {
-    background-color: #DDAABB;
-}
-
-#remove-product-name {
-    text-align: center;
-    border: 2px solid var(--acento-rosa);
+  background-color: #DDAABB;
 }
 
 .action-button.confirm {
-    background-color: var(--acento-dorado); /* Dorado para el botón Confirmar */
-    color: var(--texto-principal-marron);
-    padding: 15px 25px;
-    font-size: 1.1em;
+  background-color: var(--acento-dorado);
+  color: var(--texto-principal-marron);
+  padding: 15px 25px;
+  font-size: 1.1em;
 }
 
 .action-button.confirm:hover {
-    background-color: #C19E32;
-    transform: scale(1.02);
+  background-color: #C19E32;
+  transform: scale(1.02);
 }
 
-/* Estilo para textarea readonly (productos pedidos) */
-#productos-pedidos {
-    resize: vertical;
-    min-height: 150px;
-}
-
-/* --- ESTILOS DE LA VENTANA MODAL (CONFIRMACIÓN) --- */
-
+/* --- MODAL --- */
 .modal {
-    display: none;
-    position: fixed; 
-    z-index: 1000; 
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0, 0, 0, 0.4);
-    justify-content: center;
-    align-items: center;
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+  justify-content: center;
+  align-items: center;
 }
 
 .modal-content {
-    background-color: var(--acento-rosa); /* Rosa para el fondo del modal */
-    color: var(--texto-principal-marron);
-    margin: auto;
-    padding: 30px;
-    border-radius: var(--borde-redondeado);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-    width: 80%;
-    max-width: 400px; 
-    text-align: center;
-    font-family: var(--font-titulo);
-    font-size: 1.2em;
+  background-color: var(--acento-rosa);
+  color: var(--texto-principal-marron);
+  margin: auto;
+  padding: 30px;
+  border-radius: var(--borde-redondeado);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  width: 80%;
+  max-width: 400px;
+  text-align: center;
+  font-family: var(--font-titulo);
+  font-size: 1.2em;
 }
 
 .modal-content .confirm {
-    margin-top: 20px;
-    width: 60%;
-    margin-left: auto;
-    margin-right: auto;
+  margin-top: 20px;
+  width: 60%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 }
