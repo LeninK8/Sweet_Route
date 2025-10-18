@@ -1,13 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Poppins:wght@300;500&display=swap');
 
 :root {
-    /* --- PALETA OFICIAL SWEETROUTE DELUXE --- */
-    --fondo-principal-crema: #FAF3E0;      /* Fondo principal (Crema claro suave) */
-    --acento-rosa: #E8B4B8;                /* Acento 1 (Rosa empolvado) */
-    --acento-dorado: #D4AF37;              /* Acento 2 (Dorado elegante) */
-    --texto-principal-marron: #3B2F2F;     /* Texto principal (Marrón oscuro) */
-    --fondo-secundario-perlado: #FFF8F0;   /* Fondo secundario (Beige cálido) */
-    --detalles-tecnologicos: #4F4F4F;      /* Gris piedra (Botones/Detalles) */
+    /* --- PALETA OFICIAL SWEETROUTE DELUXE (Colores Ajustados a lo que esperas) --- */
+    --fondo-principal-claro: #FAF3E0;      /* Crema claro suave */
+    --acento-rosa: #E8B4B8;                /* Rosa empolvado */
+    --acento-dorado: #D4AF37;              /* Dorado elegante */
+    --texto-principal-oscuro: #3B2F2F;     /* Marrón oscuro (Usado para texto y bordes de tarjeta) */
+    --fondo-secundario-perlado: #FFF8F0;   /* Beige cálido (Usado para Navbar y Formulario) */
+    --detalles-gris: #4F4F4F;              /* Gris oscuro para links inactivos */
     --cafe-suave: #C7B7A7;                 /* Marrón suave para fondos de imagen */
      
     /* --- VARIABLES DE DISEÑO --- */
@@ -21,8 +21,8 @@
 body {
     margin: 0;
     padding: 0;
-    background-color: var(--fondo-principal-crema);
-    color: var(--texto-principal-marron);
+    background-color: var(--fondo-principal-claro); /* Crema claro */
+    color: var(--texto-principal-oscuro); /* Marrón oscuro */
     font-family: var(--font-texto);
     line-height: 1.6;
 }
@@ -36,7 +36,7 @@ main {
 /* --- BARRA DE NAVEGACIÓN (HEADER) --- */
 
 .navbar {
-    background-color: var(--fondo-secundario-perlado);
+    background-color: var(--fondo-secundario-perlado); /* Beige cálido */
     padding: 10px 50px;
     display: flex;
     justify-content: space-between;
@@ -45,10 +45,9 @@ main {
     border-bottom: 3px solid var(--acento-dorado); 
 }
 
-/* Estilo para los botones de la navegación (Título, Links, Login) */
-.titulo, .nav-links a, .login-container .login-btn {
-    /* Los botones son Gris piedra o el color de acento */
-    background-color: var(--detalles-tecnologicos);
+/* Estilo para los botones de la navegación (Links, Login) */
+.nav-links a, .login-container .login-btn {
+    background-color: var(--detalles-gris); /* Gris oscuro para links inactivos */
     color: var(--fondo-secundario-perlado);
     padding: 10px 20px;
     border-radius: var(--borde-redondeado);
@@ -63,7 +62,9 @@ main {
     font-size: 1.5em;
     font-weight: 600;
     background-color: var(--acento-dorado);  /* Dorado */
-    color: var(--texto-principal-marron);
+    color: var(--texto-principal-oscuro);
+    padding: 10px 20px;
+    border-radius: var(--borde-redondeado);
 }
 
 .nav-links a {
@@ -72,75 +73,105 @@ main {
     padding: 10px 15px;
 }
 
-.nav-links a:hover {
-    background-color: var(--detalles-tecnologicos);
-    box-shadow: 0 0 10px var(--acento-dorado);
-    transform: translateY(-2px);
-}
-
 .nav-links a.active {
     background-color: var(--acento-rosa);  /* Rosa para el activo */
-    color: var(--texto-principal-marron); 
+    color: var(--texto-principal-oscuro); 
 }
 
-.login-container .login-btn {
-    cursor: pointer;
-}
-
-/* --- TÍTULOS Y SECCIONES (Título de Secciones) --- */
+/* --- TÍTULOS Y SECCIONES --- */
 
 .section-title-sub {
     font-family: var(--font-titulo);
     font-weight: 600;
     font-size: 1.4em;
-    color: var(--texto-principal-marron);
+    color: var(--texto-principal-oscuro);
     background-color: var(--acento-rosa); /* Rosa para el subtítulo */
     display: inline-block;
     padding: 8px 15px;
     border-radius: var(--borde-redondeado);
     margin-bottom: 20px;
     margin-top: 20px;
-    box-shadow: 2px 2px 0 var(--detalles-tecnologicos);
-}
-
-/* --- CAJAS DE CONTENIDO PRINCIPALES (index.html) --- */
-
-.content-box-main {
-    background-color: var(--fondo-secundario-perlado);  /* Beige cálido */
-    color: var(--texto-principal-marron);
-    padding: 40px 30px;
-    border-radius: var(--borde-redondeado-extremo);
-    min-height: 150px; 
-    font-size: 1.1em;
-    text-align: center;
-    margin-bottom: 20px;
-    box-shadow: var(--sombra-suave);
-}
-
-.content-box-special {
-    background: linear-gradient(90deg, var(--acento-rosa), var(--fondo-principal-crema));  /* Gradiente rosa/crema */
-    color: var(--texto-principal-marron); 
-    padding: 30px;
-    border-radius: var(--borde-redondeado-extremo);
-    min-height: 250px;
-    position: relative; 
-    overflow: hidden; 
-    cursor: pointer; 
-    text-align: center;
-    font-size: 1.2em;
-    font-weight: bold;
-    box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
-}
-
-.emoji {
-    position: absolute;
-    font-size: 30px;
-    pointer-events: none;
-    opacity: 0;
-    transition: transform 0.5s ease-out, opacity 0.5s ease-out;
+    box-shadow: 2px 2px 0 var(--detalles-gris);
 }
 
 /* --- CUADRÍCULA DE PRODUCTOS (productos.html) --- */
+
+.product-card {
+    background-color: var(--texto-principal-oscuro);  /* Marrón oscuro para el borde de la tarjeta */
+    border-radius: var(--borde-redondeado-extremo);
+    padding: 15px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(212, 175, 55, 0.5); /* Sombra dorada al pasar el mouse */
+}
+
+.product-image {
+    background-color: var(--cafe-suave); /* Marrón suave para el fondo de imagen */
+}
+
+.product-info {
+    background-color: var(--fondo-principal-claro);  /* Crema claro para el fondo de info */
+    color: var(--texto-principal-oscuro);
+    /* Resto de estilos */
+}
+
+/* Botón "Agregar Producto" */
+.add-button-box {
+    background-color: var(--acento-dorado); /* Dorado para el botón */
+    color: var(--texto-principal-oscuro);
+    /* Resto de estilos */
+}
+
+/* --- ESTILOS ESPECÍFICOS DE PEDIDOS (pedidos.html) --- */
+
+.google-maps-box {
+    background-color: var(--detalles-gris); /* Gris oscuro para el fondo del mapa */
+    /* Resto de estilos */
+}
+
+.form-box {
+    background-color: var(--fondo-secundario-perlado); /* Beige cálido para el formulario */
+    color: var(--texto-principal-oscuro);
+    /* Resto de estilos */
+}
+
+.input-field {
+    background-color: var(--fondo-principal-claro); /* Crema claro para campos de input */
+    color: var(--texto-principal-oscuro);
+    border: 1px solid var(--detalles-gris);
+    /* Resto de estilos */
+}
+
+/* Botón "Quitar Producto" */
+.action-button.remove-btn {
+    background-color: var(--acento-rosa); /* Rosa para el botón Quitar */
+    color: var(--texto-principal-oscuro);
+    /* Resto de estilos */
+}
+
+#remove-product-name {
+    border: 2px solid var(--acento-rosa);
+}
+
+/* Botón "Finalizar Pedido" */
+.action-button.confirm {
+    background-color: var(--acento-dorado); /* Dorado para el botón Confirmar */
+    color: var(--texto-principal-oscuro);
+    /* Resto de estilos */
+}
+
+/* Modal de Confirmación */
+.modal-content {
+    background-color: var(--acento-rosa); /* Rosa para el fondo del modal */
+    color: var(--texto-principal-oscuro);
+    /* Resto de estilos */
+}
+
+
+/* CÓDIGO DE MAQUETACIÓN Y DETALLES (Manteniendo las correcciones) */
 
 .product-section {
     margin-top: 40px; 
@@ -153,22 +184,7 @@ main {
     margin-top: 20px;
 }
 
-.product-card {
-    background-color: var(--texto-principal-marron);  /* Marrón oscuro para el borde de la tarjeta */
-    border-radius: var(--borde-redondeado-extremo);
-    padding: 15px;
-    text-align: center;
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.product-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(212, 175, 55, 0.5); /* Sombra dorada al pasar el mouse */
-}
-
 .product-image {
-    background-color: var(--cafe-suave); /* Marrón suave para el fondo de imagen */
     border-radius: var(--borde-redondeado);
     min-height: 150px;
     display: flex;
@@ -187,8 +203,6 @@ main {
 }
 
 .product-info {
-    background-color: var(--fondo-principal-crema);  /* Crema claro para el fondo de info */
-    color: var(--texto-principal-marron);
     padding: 10px;
     border-radius: var(--borde-redondeado);
     font-size: 0.9em;
@@ -202,10 +216,7 @@ main {
     height: auto;
 }
 
-/* Estilo del recuadro para el botón "Agregar Producto" */
 .add-button-box {
-    background-color: var(--acento-dorado); /* Dorado para el botón */
-    color: var(--texto-principal-marron);
     padding: 6px 10px;
     border-radius: var(--borde-redondeado);
     font-weight: 600;
@@ -228,7 +239,6 @@ main {
     transition: opacity 0.3s ease-in-out;
 }
 
-/* Estilo para el emoji de confirmación */
 .product-added-emoji {
     position: absolute;
     font-size: 1.5em; 
@@ -236,8 +246,6 @@ main {
     transition: opacity 0.3s ease-in-out; 
     pointer-events: none;
 }
-
-/* --- ESTILOS ESPECÍFICOS DE PEDIDOS (pedidos.html) --- */
 
 .pedido-container {
     display: flex;
@@ -258,7 +266,6 @@ main {
 }
 
 .google-maps-box {
-    background-color: var(--detalles-tecnologicos); /* Gris piedra para el fondo del mapa */
     min-height: 450px; 
     padding: 10px;
     border-radius: var(--borde-redondeado-extremo);
@@ -278,8 +285,6 @@ main {
 }
 
 .form-box {
-    background-color: var(--fondo-secundario-perlado); /* Beige cálido para el formulario */
-    color: var(--texto-principal-marron);
     padding: 20px;
     border-radius: var(--borde-redondeado-extremo);
     box-shadow: var(--sombra-suave);
@@ -294,9 +299,7 @@ main {
 }
 
 .input-field {
-    background-color: var(--fondo-principal-crema); /* Crema claro para campos de input */
-    color: var(--texto-principal-marron);
-    border: 1px solid var(--detalles-tecnologicos);
+    border: 1px solid var(--detalles-gris);
     padding: 10px 15px;
     border-radius: var(--borde-redondeado);
     margin: 5px 0 15px 0;
@@ -306,7 +309,6 @@ main {
     transition: border-color 0.3s;
 }
 
-/* Estilos de botones de acción */
 .action-button {
     padding: 12px 20px;
     border: none;
@@ -321,7 +323,6 @@ main {
     margin-bottom: 10px;
 }
 
-/* Contenedor y estilos para "Quitar Producto" */
 #remove-product-container {
     margin-top: 15px;
     margin-bottom: 20px;
@@ -329,26 +330,8 @@ main {
     padding-top: 15px;
 }
 
-.action-button.remove-btn {
-    background-color: var(--acento-rosa); /* Rosa para el botón Quitar */
-    color: var(--texto-principal-marron);
-    margin-bottom: 5px;
-}
-
 .action-button.remove-btn:hover {
     background-color: #DDAABB;
-}
-
-#remove-product-name {
-    text-align: center;
-    border: 2px solid var(--acento-rosa);
-}
-
-.action-button.confirm {
-    background-color: var(--acento-dorado); /* Dorado para el botón Confirmar */
-    color: var(--texto-principal-marron);
-    padding: 15px 25px;
-    font-size: 1.1em;
 }
 
 .action-button.confirm:hover {
@@ -356,13 +339,10 @@ main {
     transform: scale(1.02);
 }
 
-/* Estilo para textarea readonly (productos pedidos) */
 #productos-pedidos {
     resize: vertical;
     min-height: 150px;
 }
-
-/* --- ESTILOS DE LA VENTANA MODAL (CONFIRMACIÓN) --- */
 
 .modal {
     display: none;
@@ -379,8 +359,6 @@ main {
 }
 
 .modal-content {
-    background-color: var(--acento-rosa); /* Rosa para el fondo del modal */
-    color: var(--texto-principal-marron);
     margin: auto;
     padding: 30px;
     border-radius: var(--borde-redondeado);
