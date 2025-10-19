@@ -227,7 +227,9 @@ main {
 
 .google-maps-box {
   background-color: var(--detalles-tecnologicos);
-  min-height: 450px;
+  width: 100%;            /* ocupa todo el ancho del contenedor padre */
+  max-width: 450px;       /* tamaño máximo opcional */
+  aspect-ratio: 1 / 1;    /* fuerza a que sea cuadrado */
   padding: 10px;
   border-radius: var(--borde-redondeado-extremo);
   margin-bottom: 20px;
@@ -236,6 +238,7 @@ main {
   justify-content: center;
   overflow: hidden;
 }
+
 
 .google-maps-box iframe {
   width: 100%;
