@@ -115,7 +115,7 @@ main {
 
 .content-box-special {
   position: relative;  /* IMPORTANTE: permite posicionar emojis dentro */
-  background: linear-gradient(90deg, var(--detalles-tecnologicos), var(--fondo-secundario-perlado), var(--acento-dorado));
+background: linear-gradient(90deg, var(--detalles-tecnologicos), var(--acento-dorado));
   color: var(--texto-principal-marron);
   padding: 30px;
   border-radius: var(--borde-redondeado-extremo);
