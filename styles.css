@@ -114,7 +114,7 @@ main {
 }
 
 .content-box-special {
-  background: linear-gradient(90deg, var(--acento-rosa), var(--fondo-principal-crema));
+  background: linear-gradient(90deg, var(--fondo-principal-crema), var(--acento-dorado));
   color: var(--texto-principal-marron);
   padding: 30px;
   border-radius: var(--borde-redondeado-extremo);
