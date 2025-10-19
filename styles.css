@@ -114,18 +114,27 @@ main {
 }
 
 .content-box-special {
-  background: linear-gradient(90deg, var(--acento-rosa), var(--fondo-principal-crema));
+  position: relative;  /* IMPORTANTE: permite posicionar emojis dentro */
+  background: linear-gradient(90deg, var(--detalles-tecnologicos), var(--fondo-secundario-perlado), var(--acento-dorado));
   color: var(--texto-principal-marron);
   padding: 30px;
   border-radius: var(--borde-redondeado-extremo);
   min-height: 250px;
-  position: relative;
-  overflow: hidden;
+  overflow: hidden;   /* evita que se salgan los emojis */
   cursor: pointer;
   text-align: center;
   font-size: 1.2em;
   font-weight: bold;
   box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+}
+
+.emoji {
+  position: absolute;    /* posicionamiento relativo a .content-box-special */
+  font-size: 2rem;       /* tamaño de los emojis */
+  pointer-events: none;  /* para no bloquear clics */
+  opacity: 0;
+  user-select: none;
+  transform: translate(0,0);
 }
 
 /* --- PRODUCTOS --- */
