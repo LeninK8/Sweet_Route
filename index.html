@@ -40,51 +40,45 @@ Porque en SweetRoute creemos que la felicidad también puede llegar… en una ca
     </main>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const specialBox = document.getElementById('specialBox');
-            
-            // Emojis de comida y bebida (incluyendo 'empanadas' como comida general)
-            const EMOJIS = ['🍕', '🍔', '🌮', '🥟', '🍜', '🍣', '🍰', '☕', '🥤', '🍺', '🍟', '🍩']; 
+       document.addEventListener('DOMContentLoaded', () => {
+    const specialBox = document.getElementById('specialBox');
+    
+    const EMOJIS = ['🍕', '🍔', '🌮', '🥟', '🍜', '🍣', '🍰', '☕', '🥤', '🍺', '🍟', '🍩']; 
 
-            specialBox.addEventListener('click', (event) => {
-                // Función para obtener un emoji aleatorio
-                const randomEmoji = EMOJIS[Math.floor(Math.random() * EMOJIS.length)];
-                
-                // Crea el elemento emoji
-                const emojiElement = document.createElement('div');
-                emojiElement.classList.add('emoji');
-                emojiElement.textContent = randomEmoji;
-                
-                // 1. Posiciona el emoji en el lugar donde se hizo clic (relativo a la caja)
-                const rect = specialBox.getBoundingClientRect();
-                const x = event.clientX - rect.left; // Posición X dentro de la caja
-                const y = event.clientY - rect.top; // Posición Y dentro de la caja
-                
-                emojiElement.style.left = x + 'px';
-                emojiElement.style.top = y + 'px';
-                
-                specialBox.appendChild(emojiElement);
+    specialBox.addEventListener('click', (event) => {
+        const randomEmoji = EMOJIS[Math.floor(Math.random() * EMOJIS.length)];
+        
+        const emojiElement = document.createElement('div');
+        emojiElement.classList.add('emoji');
+        emojiElement.textContent = randomEmoji;
 
-                // 2. Ejecuta la animación (pequeño retardo para asegurar la posición inicial)
-                setTimeout(() => {
-                    // Mueve el emoji a una posición aleatoria y lo hace visible
-                    const targetX = x + (Math.random() - 0.5) * 200; // Mover +/- 100px horizontalmente
-                    const targetY = y - 100; // Mover 100px hacia arriba (simula flotar)
+        // Posición relativa al contenedor
+        const rect = specialBox.getBoundingClientRect();
+        const x = event.clientX - rect.left;
+        const y = event.clientY - rect.top;
 
-                    emojiElement.style.transition = 'transform 1s ease-out, opacity 1s ease-out';
-                    emojiElement.style.transform = `translate(${targetX - x}px, ${targetY - y}px)`;
-                    emojiElement.style.opacity = 1;
-                    
-                    // 3. Elimina el emoji después de la animación
-                    setTimeout(() => {
-                        emojiElement.style.opacity = 0; // Se desvanece
-                        setTimeout(() => {
-                            emojiElement.remove();
-                        }, 500); // Espera a que se desvanezca completamente para eliminarlo
-                    }, 800);
-                }, 10);
-            });
-        });
+        emojiElement.style.left = x + 'px';
+        emojiElement.style.top = y + 'px';
+        
+        specialBox.appendChild(emojiElement);
+
+        // Animación de flotado
+        setTimeout(() => {
+            const targetX = x + (Math.random() - 0.5) * 200; // se mueve horizontalmente ±100px
+            const targetY = y - 100; // flota hacia arriba
+
+            emojiElement.style.transition = 'transform 1s ease-out, opacity 1s ease-out';
+            emojiElement.style.transform = `translate(${targetX - x}px, ${targetY - y}px)`;
+            emojiElement.style.opacity = 1;
+
+            // Desaparece y se elimina
+            setTimeout(() => {
+                emojiElement.style.opacity = 0;
+                setTimeout(() => emojiElement.remove(), 500);
+            }, 800);
+        }, 10);
+    });
+});
     </script>
 </body>
 </html>
